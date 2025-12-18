@@ -1,8 +1,5 @@
 CREATE DATABASE retail_analytics;
 USE retail_analytics;
-DROP TABLE IF EXISTS sales;
-DROP TABLE IF EXISTS employees;
-DROP TABLE IF EXISTS departments;
 CREATE TABLE departments (
     dept_id INT PRIMARY KEY,
     dept_name VARCHAR(50) NOT NULL
@@ -132,3 +129,4 @@ FROM (
     GROUP BY e.emp_name
 ) t
 WHERE Sales_Rank <= 2;
+
