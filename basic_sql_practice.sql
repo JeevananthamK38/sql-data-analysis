@@ -1,489 +1,134 @@
--- how to create a new database using the below codes
-
-create database	Jeevan;
-
--- to create table inside the database
-
-USE jeevan;
-CREATE TABLE student ( roll_no INT PRIMARY KEY, name VARCHAR (50));
-SELECT * 
-FROM student;
-
--- how to add values inside table
-
-INSERT INTO student (roll_no,name) values (101,"Karan");
-INSERT INTO student (roll_no,name) values (102,"Arjun");
-INSERT INTO student (roll_no,name) values (103,"Ram");
-INSERT INTO student (roll_no,name) values (104,"Shyam");
--- view the tables
-SELECT *
-FROM student;
-
-CREATE database Dynamo_company;
-
-USE Dynamo_company;
-
-DROP TABLE dynamo_company;
-CREATE TABLE Employee (
-id INT PRIMARY KEY,
-name VARCHAR(50),
-salary INT);
-
-INSERT INTO Employee (id,name,salary) VALUES (1,"adam",25000);
-INSERT INTO Employee (id,name,salary) VALUES (2,"bob",30000);
-INSERT INTO Employee (id,name,salary) Values (3,"casey",40000);
-
-DROP DATABASE demo;
-USE practicesql;
-SELECT *
-FROM advisors;
-
-DROP DATABASE practicesql;
-
--- UniversityDB
-CREATE DATABASE University;
-USE University;
-CREATE TABLE Department (
-    DepartmentID INT PRIMARY KEY,
-    DepartmentName VARCHAR(50)
+CREATE DATABASE retail_analytics;
+USE retail_analytics;
+DROP TABLE IF EXISTS sales;
+DROP TABLE IF EXISTS employees;
+DROP TABLE IF EXISTS departments;
+CREATE TABLE departments (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(50) NOT NULL
 );
-
-CREATE TABLE Faculty (
-    DepartmentID INT PRIMARY KEY,
-    FacultyName VARCHAR(50)
+INSERT INTO departments (dept_id, dept_name) VALUES
+(1, 'HR'),
+(2, 'Sales'),
+(3, 'IT'),
+(4, 'Finance'),
+(5, 'Operations');
+CREATE TABLE employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    dept_id INT,
+    salary INT,
+    join_date DATE,
+    CONSTRAINT fk_department
+        FOREIGN KEY (dept_id)
+        REFERENCES departments(dept_id)
 );
-
-CREATE TABLE Student (
-    StudentID INT PRIMARY KEY,
-    Name VARCHAR(50),
-    Email VARCHAR(100),
-    Percentage DECIMAL(5, 2),
-    DepartmentID INT,
-    FOREIGN KEY (DepartmentID) REFERENCES Department(DepartmentID)
+INSERT INTO employees (emp_id, emp_name, dept_id, salary, join_date) VALUES
+(101, 'Amit', 1, 42000, '2021-03-15'),
+(102, 'Neha', 2, 52000, '2020-07-10'),
+(103, 'Rahul', 2, 48000, '2019-01-25'),
+(104, 'Sneha', 3, 65000, '2018-11-05'),
+(105, 'Karan', 3, 72000, '2017-06-18'),
+(106, 'Pooja', 4, 58000, '2020-09-30'),
+(107, 'Vikas', 5, 40000, '2022-02-12');
+CREATE TABLE sales (
+    sale_id INT PRIMARY KEY,
+    emp_id INT,
+    sale_date DATE,
+    amount INT,
+    CONSTRAINT fk_employee
+        FOREIGN KEY (emp_id)
+        REFERENCES employees(emp_id)
 );
+INSERT INTO sales (sale_id, emp_id, sale_date, amount) VALUES
+(1, 102, '2023-01-10', 12000),
+(2, 102, '2023-01-15', 18000),
+(3, 103, '2023-02-05', 15000),
+(4, 104, '2023-02-20', 22000),
+(5, 105, '2023-03-10', 30000),
+(6, 106, '2023-03-18', 17000),
+(7, 102, '2023-03-22', 25000),
+(8, 107, '2023-04-01', 9000);
+SHOW TABLES;
+SELECT * FROM departments;
+SELECT * FROM employees;
+SELECT * FROM sales;
 
--- Insert data into Department table
-INSERT INTO Department (DepartmentID, DepartmentName)
-VALUES
-    (1, 'Mathematics'),
-    (2, 'Physics'),
-    (3, 'English');
-
--- Insert data into Faculty table
-INSERT INTO Faculty (DepartmentID, FacultyName)
-VALUES
-    (1, 'Piyush'),
-    (2, 'Namita'),
-    (3, 'Ashneer'),
-    (4, 'Ghazal'),
-    (5, 'Anupam');
-
--- Insert data into Student table
-INSERT INTO Student (StudentID, Name, Email, Percentage, DepartmentID)
-VALUES
-    (1001, 'Ajay', 'ajay@xyz.com', 85, 1),
-    (1002, 'Babloo', 'babloo@xyz.com', 67, 2),
-    (1003, 'Chhavi', 'chhavi@xyz.com', 89, 3),
-    (1004, 'Dheeraj', 'dheeraj@xyz.com', 75, NULL), -- Note: No DepartmentID for Dheeraj
-    (1005, 'Evina', 'evina@xyz.com', 91, 1),
-    (1006, 'Krishna', 'krishna@xyz.com', 99, 3);
-
-CREATE DATABASE DataTimedb;
-USE DataTimedb;
-
-CREATE TABLE Employee(
-    EmployeeID INT PRIMARY KEY,
-    FirstName VARCHAR(255),
-    LastName VARCHAR(255),
-    BirthDate DATE,
-    HireDate DATE,
-    Salary DECIMAL(10, 2),
-    Department VARCHAR(255)
-);
-INSERT INTO Employee (EmployeeID, FirstName, LastName, BirthDate, HireDate, Salary, Department)
-VALUES
-(1, 'John', 'Doe', '1990-05-15', '2015-03-10', 55000.00, 'Sales'),
-(2, 'Jane', 'Smith', '1985-08-21', '2016-01-22', 60000.00, 'Marketing'),
-(3, 'Michael', 'Johnson', '1992-12-02', '2017-07-05', 52000.00, 'IT'),
-(4, 'Emily', 'Davis', '1988-04-17', '2018-09-12', 65000.00, 'HR'),
-(5, 'David', 'Wilson', '1995-07-09', '2019-02-28', 58000.00, 'Finance'),
-(6, 'Sarah', 'Anderson', '1983-02-14', '2020-06-15', 70000.00, 'Sales'),
-(7, 'Jennifer', 'Lee', '1991-11-30', '2021-04-20', 54000.00, 'Marketing'),
-(8, 'Matthew', 'Brown', '1989-09-05', '2015-12-03', 61000.00, 'IT'),
-(9, 'Olivia', 'Taylor', '1994-06-23', '2017-08-18', 59000.00, 'HR'),
-(10, 'Daniel', 'Martinez', '1987-03-07', '2018-11-14', 66000.00, 'Finance'),
-(11, 'Ava', 'Garcia', '1993-01-12', '2019-10-07', 57000.00, 'Sales'),
-(12, 'William', 'Rodriguez', '1984-10-28', '2020-03-25', 63000.00, 'Marketing'),
-(13, 'Sophia', 'Hernandez', '1996-04-03', '2021-07-09', 62000.00, 'IT'),
-(14, 'James', 'Lopez', '1986-08-10', '2016-09-02', 67000.00, 'HR'),
-(15, 'Emma', 'Clark', '1990-12-19', '2017-11-30', 60000.00, 'Finance');
+#TASK 1 (Start Now)
+#1️⃣ Show all employees with their department names
+SELECT e.emp_name,d.dept_name
+FROM employees e
+INNER JOIN Departments d ON e.dept_id=d.dept_id;
 
 
-CREATE DATABASE SetOperatorDB;
-USE SetOperatorDB;
+#2️⃣ Count employees in each department
+SELECT d.dept_name,count(e.emp_name) as Count_of_employees
+FROM employees e
+INNER JOIN departments d ON e.dept_id=d.dept_id
+group by d.dept_name;
 
-CREATE TABLE university_professors (
-    professor_id INT PRIMARY KEY,
-    first_name VARCHAR(50),
-    last_name VARCHAR(50),
-    department VARCHAR(50),
-    teaching_subject VARCHAR(100),
-    office_location VARCHAR(100),
-    office_hours VARCHAR(100),
-    academic_rank VARCHAR(50)
-);
-CREATE TABLE online_platform_professors (
-    professor_id INT PRIMARY KEY,
-    first_name VARCHAR(50),
-    last_name VARCHAR(50),
-    platform_name VARCHAR(100),
-    teaching_subject VARCHAR(100),
-    course_schedule VARCHAR(100)
-);
-INSERT INTO university_professors (professor_id, first_name, last_name, department, teaching_subject, office_location, office_hours, academic_rank)
-VALUES
-    (1, 'John', 'Smith', 'Computer Science', 'Data Structures', 'Building A, Room 101', 'Monday 2-4 PM', 'Professor'),
-    (2, 'Alice', 'Johnson', 'Mathematics', 'Calculus', 'Building B, Room 203', 'Wednesday 10 AM-12 PM', 'Associate Professor'),
-    (3, 'Michael', 'Brown', 'Physics', 'Quantum Mechanics', 'Building C, Room 305', 'Tuesday 3-5 PM', 'Professor'),
-    (4, 'Emily', 'Davis', 'History', 'World History', 'Building D, Room 107', 'Thursday 1-3 PM', 'Associate Professor'),
-    (5, 'David', 'Wilson', 'English', 'Literature', 'Building E, Room 201', 'Friday 9-11 AM', 'Professor');
-INSERT INTO online_platform_professors (professor_id, first_name, last_name, platform_name, teaching_subject, course_schedule)
-VALUES
-    (1, 'Maria', 'Martinez', 'OnlineEdX', 'Machine Learning', 'Monday and Wednesday 6-8 PM'),
-    (2, 'Robert', 'Clark', 'Coursera', 'Artificial Intelligence', 'Tuesday and Thursday 9-11 AM'),
-    (3, 'Jennifer', 'Lee', 'Udemy', 'Web Development', 'Friday 3-5 PM'),
-    (4, 'Daniel', 'Hall', 'edX', 'Data Analytics', 'Tuesday and Friday 1-3 PM'),
-    (5, 'Sarah', 'Garcia', 'Coursera', 'Digital Marketing', 'Monday and Thursday 2-4 PM'),
-    (6, 'Emily', 'Davis', 'Udemy', 'World History', 'Thursday 1-3 PM'),
-    (7, 'David', 'Wilson', 'edX', 'Literature', 'Friday 9-11 AM');
-    
-    USE dynamo_company;
-    SELECT *
-    FROM Employee;
-    
-CREATE database college_data;
-USE college_data;
+#3️⃣ Find average salary per department#
+SELECT d.dept_name, avg(e.salary) as Average_Salary
+FROM employees e
+INNER JOIN departments d ON e.dept_id=d.dept_id
+GROUP BY d.dept_name;
 
-CREATE TABLE students (rollno INT primary kEY, name VARCHAR(50),marks INT NOT NULL,grade varchar(1),CITY VARCHAR (20));
-CREATE TABLE dept (id INT primary kEY, name VARCHAR(50));
-CREATE TABLE teacher (id INT primary kEY, name VARCHAR(50), dept_id INT, FOREIGN key (dept_id) references dept(id) 
-on update cascade
-on delete cascade);
-INSERT INTO students (rollno,name,marks,grade,city) Values 
-(101,"anil",78,"C","Pune"),(102,"Bhumika",93,"A","Mumbai"),(103,"Chetan",85,"B","Mumbai"),(104,"Dhruv",96,"A","Delhi"),(105,"emanuel",12,"F","Delhi"),(106,"Farah",82,"B","Delhi");
+#TAST 2
+# 4.List employees earning above company average salary
+SELECT emp_name
+FROM employees
+WHERE salary > (SELECT avg(salary) from employees);
 
-INSERT INTO dept(id,name) Values (101,"Science"),(102,"English"),(103,"Hindi");
-INSERT INTO teacher(id,name,dept_id) Values (101,"adam",101),(102,"Bob",103),(103,"Casey",102),(104,"Donald",102);
+# 5.Show highest and lowest salary per department
+SELECT d.dept_name,max(e.salary) as Max_salary,min(e.salary) as Min_salary
+FROM employees e
+JOIN departments d ON e.dept_id=d.dept_id
+GROUP BY d.dept_name
+ORDER BY d.dept_name;
 
+# Task 3: 
 
+#6.Sales Performance Analysis
+# Total sales by each employee
+SELECT e.emp_name, sum(s.amount) as Total_Sales
+FROM employees e
+JOIN sales s on e.emp_id=s.emp_id
+GROUP BY e.emp_name;
 
-use college_data;
-Select distinct name
-FROM students
-WHERE marks >90 oR city="Mumbai";
+# 7. Total sales by department
+SELECT d.dept_name, sum(s.amount) as Total_Department_sales
+FROM employees e
+JOIN Sales s ON e.emp_id=s.emp_id
+JOIN departments d ON e.dept_id = d.dept_id
+GROUP BY d.dept_name;
 
-SELECT count(city)
-FROM students;
+# 8. Employees who have NOT made any sales (Where concept should be used)
+SELECT e.emp_name
+FROM employees e
+LEFT JOIN sales s ON e.emp_id=s.emp_id
+WHERE S.emp_id is NULL;
 
-SELECT city, MAX(marks)
-FROM students
-GROUP by city;
-
-Select city,avg(marks) as Average_marks
-FROM students
-Group by city
-order by avg(marks) asc;
-
-SELECT city,count(name) as number_of_students
-FROM students
-GROUP by city
-having max(marks >90);
-
-SELECT city
-FROM students
-Where grade = "A"
-GROUP by city
-having max(marks >90)
-ORDER by city asc;
-
-set SQL_SAFE_UPDATES=0;
-
-update students
-set grade ="0"
-where grade ="A";
-
-select *
-from students;
-
-update students
-set grade = "B"
-where marks between 80 AND 90;
-
-select *
-from students;
-
-update students
-set marks = marks+2;
-
-select *
-from students;
-
-delete from students
-where marks <33;
-
-select * from students;
-
--- what is foriegn key concepts?
-select d.name as department_name,t.name as teacher_name
-from dept d
-join teacher t ON t.dept_id=d.id;
-
--- union & union all
-Select count(d.name)
-from dept d
-UNION ALL
-select count(t.name)
-from teacher t;
-
-Select t.name, d.name
-from dept d
-JOIN teacher t ON d.id=t.dept_id;
-
-use university;
-
-use college_data;
-
-Show tables;
-
-use ecommerce;
-Show tables;
-
-Select *
-From products;
-
-Select * 
-From orders;
-
--- INNER JOIN or JOIN all the tables
-Select o.*,p.*
-FROM Orders o
-JOIN Products p ON p.product_id=o.customer_id;
-
--- INNER JOIN or JOIN all the tables
-Select o.*,p.*
-FROM Orders o
-JOIN Products p ON p.product_id=o.customer_id;
-
--- LEFT JOIN all the tables
-Select o.*,p.*
-FROM Orders o
-LEFT JOIN Products p ON p.product_id=o.customer_id;
-
--- RIGHT JOIN all the tables
-Select o.*,p.*
-FROM Orders o
-RIGHT JOIN Products p ON p.product_id=o.customer_id;
-
--- FULL JOIN all the tables
-Select o.*,p.*
-FROM Orders o
-LEFT JOIN Products p ON p.product_id=o.customer_id
-UNION
-Select o.*,p.*
-FROM Orders o
-RIGHT JOIN Products p ON p.product_id=o.customer_id;
-
-Use university;
-
-Select *
-FROM department;
-
--- INNER JOIN
-select d.*,s.*
-FROM department d
-INNER JOIN student s ON s.DepartmentID = d.DepartmentID;
-
--- LEFT JOIN
-select d.*,s.*
-FROM department d
-LEFT JOIN student s ON s.DepartmentID = d.DepartmentID;
-
--- RIGHT JOIN
-select d.*,s.*
-FROM department d
-RIGHT JOIN student s ON s.DepartmentID = d.DepartmentID;
-
-
--- UNION
-select d.*,s.*
-FROM department d
-LEFT JOIN student s ON s.DepartmentID = d.DepartmentID
-UNION ALL
-select d.*,s.*
-FROM department d
-RIGHT JOIN student s ON s.DepartmentID = d.DepartmentID;
-
--- left excluse join
-select d.*,s.*
-FROM department d
-LEFT JOIN student s ON s.DepartmentID = d.DepartmentID
-WHERE s.DepartmentID IS NULL;
-
--- RIGHT excluse join
-select d.*,s.*
-FROM department d
-RIGHT JOIN student s ON s.DepartmentID = d.DepartmentID
-WHERE d.DepartmentID IS NULL;
-
-use college_data;
-show tables;
-
-select *
-from students;
-
--- subquery to identify the student name whose score is above average marks of the entire students
-select name, marks
-from students
-where marks > (
-select avg(marks) from students);
--- subquery to identify the even roll numbers
-select name, rollno
-from students
-where rollno IN (
-select rollno
-from students where rollno %2 =0);
-
--- find the max marks from the students of delhi
-
-SELECT max(marks)
-from (Select * FROM students
-WHERE CITY = "Delhi") as temp; 
-
--- Case statements
-SELECT rollno, name, marks,
-CASE 
- When marks > 75 then 'Distinction'
- When marks between 50 AND 74 then 'Pass'
- else 'fail'
-end as 'Grade level'
-From students
-Order by marks desc;
-
-use dynamo_company;
-show tables;
-select *
-from employee;
-
-use ecommerce;
-select *
-From order_items;
-select *
-From products;
-
--- find the total sales from each product category from tables product and order_items using the common primary key as product_ID
-select category, total_sales
-From (
-select p.category, sum(o.quantity*o.price) as total_sales
-From products p
-Join order_items o on p.product_id=o.product_id
-group by p.category
- ) as T
- order by total_sales DESC;
- 
- SELECT 
-    p.product_id,
-    p.product_name,
-    SUM(oi.quantity * oi.price) AS total_revenue
-FROM 
-    order_items oi
-JOIN 
-    products p ON oi.product_id = p.product_id
-GROUP BY 
-    p.product_id, p.product_name
-ORDER BY 
-    total_revenue DESC
-LIMIT 3;
-
+# Task 4 — Business Insights:
+# 9.Ranking employees by sales
+SELECT emp_name,
+Total_sales,
+RANK () OVER (ORDER BY Total_sales DESC) AS Sales_Rank
+FROM(
 SELECT 
-    p.product_id,
-    p.product_name,
-    SUM(oi.quantity * oi.price) AS total_revenue
-FROM 
-    order_items oi
-JOIN 
-    products p ON oi.product_id = p.product_id
-GROUP BY 
-    p.product_id, p.product_name
-ORDER BY 
-    total_revenue DESC
-LIMIT 1 OFFSET 2;
+e.emp_name as emp_name, sum(s.amount) as Total_sales
+FROM employees e
+JOIN sales s ON e.emp_id=s.emp_id
+GROUP BY e.emp_name) t;
 
-WITH ProductRevenue AS (
-    SELECT 
-        p.product_id,
-        p.product_name,
-        SUM(oi.quantity * oi.price) AS total_revenue
-    FROM 
-        order_items oi
-    JOIN 
-        products p ON oi.product_id = p.product_id
-    GROUP BY 
-        p.product_id, p.product_name
-),
-RankedProducts AS (
-    SELECT 
-        *,
-        RANK() OVER (ORDER BY total_revenue DESC) AS revenue_rank
-    FROM 
-        ProductRevenue
-)
-SELECT 
-    product_id,
-    product_name,
-    total_revenue
-FROM 
-    RankedProducts
-WHERE 
-    revenue_rank = 3;
-    
-    SELECT 
-    order_id,
-    order_date,
-    DENSE_RANK() OVER (ORDER BY order_date) AS order_rank
-FROM 
-    orders;
-    
-    SELECT 
-    customer_id,
-    order_id,
-    order_date,
-    ROW_NUMBER() OVER (
-        PARTITION BY customer_id 
-        ORDER BY order_date
-    ) AS order_sequence
-FROM 
-    orders
-ORDER BY 
-    customer_id, order_date;
-
-
-SELECT
-    c.first_name,
-    c.last_name,
-    YEAR(o.order_date) AS order_year,
-    COUNT(o.order_id) AS total_orders,
-    RANK() OVER (
-        PARTITION BY YEAR(o.order_date)
-        ORDER BY COUNT(o.order_id) DESC
-    ) AS rank_in_year
-FROM
-    customers c
-JOIN
-    orders o ON c.customer_id = o.customer_id
-GROUP BY
-    c.first_name,
-    c.last_name,
-    YEAR(o.order_date)
-ORDER BY
-    order_year,
-    rank_in_year;
+# 10 Identify Top 2 performing employees
+SELECT emp_name, Total_sales, Sales_Rank
+FROM (
+    SELECT e.emp_name,
+           SUM(s.amount) AS Total_sales,
+           RANK() OVER (ORDER BY SUM(s.amount) DESC) AS Sales_Rank
+    FROM employees e
+    JOIN sales s 
+        ON e.emp_id = s.emp_id
+    GROUP BY e.emp_name
+) t
+WHERE Sales_Rank <= 2;
